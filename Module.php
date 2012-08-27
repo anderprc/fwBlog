@@ -1,6 +1,7 @@
 <?php
 
 namespace Blog;
+use Blog\Model\PostTable;
 
 class Module
 {
@@ -14,6 +15,19 @@ class Module
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                 ),
+            ),
+        );
+    }
+    
+     public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                'Blog\Model\PostTable' =>  function($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $table     = new PostTable($dbAdapter);
+                    return $table;
+                },
             ),
         );
     }
