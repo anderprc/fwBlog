@@ -33,8 +33,8 @@ class PostTable extends AbstractTableGateway
         if (!$row) {
             throw new \Exception("Could not find row $id");
         }
-        //convert tag into array (for iteration)
-        $row->tags = explode(',', $row->tags);
+   
+        
         return $row;
     }
 
@@ -55,8 +55,7 @@ class PostTable extends AbstractTableGateway
         } else {
             if ($this->getPost($id)) {
                 //tags  could be an array.
-                if (is_array($data->tags))
-                    $data->tags = implode(',',$data->tags);
+             
                 
                 $this->update($data, array('id' => $id));
             } else {
