@@ -32,6 +32,10 @@ class BlogController extends AbstractActionController
      */
     public function adminAction()
     {
+        if (!$this->zfcUserAuthentication()->hasIdentity())
+          $this->redirect()->toRoute('user');
+        
+        
          return new ViewModel(array(
             'posts' => $this->getPostTable()->fetchAll(),
         ));
@@ -72,6 +76,35 @@ class BlogController extends AbstractActionController
 
     public function editAction()
     {
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            return $this->redirect()->toRoute('blog', array(
+                'action' => 'add'
+            ));
+        }
+        $post = $this->getPostTable()->getPost($id);
+
+        $form  = new PostForm();
+        $form->bind($post);
+        $form->get('submit')->setAttribute('value', 'Edit');
+
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $form->setInputFilter($post->getInputFilter());
+            $form->setData($request->getPost());
+
+            if ($form->isValid()) {
+                $this->getPostTable()->savePost($post);
+
+                // Redirect to list of albums
+                return $this->redirect()->toRoute('blog', array('action' => 'admin'));
+            }
+        }
+
+        return array(
+            'id' => $id,
+            'form' => $form,
+        );
     }
 
     public function deleteAction()

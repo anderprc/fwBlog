@@ -7,6 +7,18 @@ return array(
             'Blog\Controller\Blog' => 'Blog\Controller\BlogController',
         ),
     ),
+    'di' => array(
+        'instance' => array(
+            'Zend\View\HelperLoader' => array(
+                'parameters' => array(
+                'map' => array(
+                        'zfcUserIdentity' => 'ZfcUser\View\Helper\ZfcUserIdentity',
+                        'zfcUserLoginWidget' => 'ZfcUser\View\Helper\ZfcUserLoginWidget',
+                    ),
+                ),
+            ),
+        ),
+    ),
     
      // The following section is new and should be added to your file
     'router' => array(

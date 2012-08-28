@@ -31,6 +31,15 @@ class Module
             ),
         );
     }
+    
+    public function getControllerPluginConfig()
+    {
+        return array(
+            'invokables' => array(
+               'zfcUserAuthentication' => 'ZfcUser\Controller\Plugin\ZfcUserAuthentication'
+            )
+        );
+    }
 
     public function getConfig()
     {
